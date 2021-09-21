@@ -1,0 +1,26 @@
+
+:root{
+    --primary: #C4E5E7;
+    --secondary: #24AC80;
+    --font: #0F2B2B;
+    --wrong: #FA3E3E;
+    --disabled: #B4D2D4;
+    --corners: 5px;
+}
+
+@mixin flex-column{
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin flex-row{
+    display: flex;
+    flex-direction: row;
+}
+
+@mixin centered-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

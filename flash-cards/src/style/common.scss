@@ -1,0 +1,37 @@
+// header
+
+header{
+    display: flex;
+    justify-content: center;
+    background-color: var(--secondary);
+    color: var(--primary);
+    text-align: center;
+    a{
+        color: var(--primary);
+        padding: 1em;
+    }
+}
+
+// tile
+
+.tile{
+    @include flex-row;
+    border: 1px solid var(--secondary);
+    border-radius: var(--corners);
+    padding: .5em 1em 1em 1em;
+    margin: 1em 1.5em;
+    min-width: 200px;
+    height: 100px;
+    button{
+        align-self: flex-start;
+        border: none;
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+        flex: none;
+    }
+    a, span{
+        @include centered-container;
+        flex: 1 0 auto;
+    }
+}

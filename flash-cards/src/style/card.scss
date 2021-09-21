@@ -1,0 +1,30 @@
+
+
+.card{
+    @include flex-column;
+    margin: auto;
+    text-align: center;
+    width: 500px;
+    p, form{
+        margin: 1em 1.5em;
+    }
+
+    form{
+        textarea{
+            width: calc(100% - 2em);
+            max-width: calc(100% - 2em);
+            border: 1px solid var(--secondary);
+            border-radius: var(--corners);
+            background-color: transparent;
+            padding: 1em;
+        }
+        .card-buttons{
+            @include flex-row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 1em 0;
+            
+
+        }
+    }
+}
