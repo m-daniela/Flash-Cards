@@ -34,4 +34,15 @@ header{
         @include centered-container;
         flex: 1 0 auto;
     }
+
+    @media screen and (max-width: 600px) {
+        width: 100%;
+        margin: .7em .4em;
+    }
+
+    @media screen and (max-width: 300px) {
+        width: 100%;
+        padding: .7em 1em;
+        margin: .7em 0;
+    }
 }

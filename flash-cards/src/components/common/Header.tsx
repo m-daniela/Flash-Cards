@@ -1,12 +1,14 @@
 import React from 'react';
-import { useParams } from 'react-router';
+import { matchPath, useLocation, useParams } from 'react-router';
 import { URLParams } from '../../utils/types';
 
 const Header: React.FC = () => {
-    const params: URLParams = useParams();
-    console.log(params);
+    const params: string = useLocation()?.pathname;
+    const displayParams: string[] = params.split("/").splice(1);
+
     return (
         <header>
+            {/* {displayParams.map(e => e)} */}
             <a href="">eeef</a>
         </header>
     );
