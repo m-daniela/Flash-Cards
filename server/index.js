@@ -1,7 +1,21 @@
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config({ path: "./.env" });
+
+const {getLessons, 
+    addLesson,
+    deleteLesson, 
+    updateLesson,
+    getCategories,
+    addCategory,
+    deleteCategory,
+    updateCategory,
+    getCards,
+    addCard,
+    deleteCard,
+    upadteCard} = require("./utils/database");
 
 const {endpoints} = require("./utils/constants");
 
@@ -14,13 +28,21 @@ app.use(express.json());
 
 app.get(endpoints.lessons, (req, res) => {
     console.log("GET", endpoints.lessons);
-    res.json("Lessons");
+    getLessons()
+        .then((result) => res.json(result))
+        .catch((err) => {
+            console.log(err)
+        });
 });
 
 app.post(endpoints.addLesson, (req, res) => {
     console.log("POST", endpoints.addLesson);
-    const lesson = req.body.lesson;
-    res.json({lesson});
+    const lesson = req.body.title;
+    addLesson(lesson)
+        .then((result) => res.json(result))
+        .catch((err) => {
+            console.log(err)
+        });
 
 });
 
@@ -44,7 +66,11 @@ app.post(endpoints.updateLesson, (req, res) => {
 app.get(endpoints.categories, (req, res) => {
     console.log("GET", endpoints.categories);
     const lesson = req.params.lesson;
-    res.json("Categories");
+    getCategories(lesson)
+        .then((result) => res.json(result))
+        .catch((err) => {
+            console.log(err)
+        });
 });
 
 app.post(endpoints.addCategory, (req, res) => {
@@ -74,7 +100,12 @@ app.post(endpoints.updateCategory, (req, res) => {
 app.get(endpoints.cards, (req, res) => {
     console.log("GET", endpoints.cards);
     const {lesson, category} = req.params;
-    res.json("Cards");
+    getCards(lesson, category)
+        .then((result) => res.json(result))
+        .catch((err) => {
+            console.log(err)
+        });
+
 });
 
 app.post(endpoints.addCard, (req, res) => {
@@ -101,11 +132,12 @@ app.post(endpoints.updateCard, (req, res) => {
 
 });
  
-app.listen(port, () => {
-  // perform a database connection when server starts
-//   dbo.connectToServer(function (err) {
-//     if (err) console.error(err);
- 
-//   });
-  console.log(`Server is running on port: ${port}`);
-});
+
+mongoose.connect(process.env.DB, {useNewUrlParser: true, useUnifiedTopology: true})
+    .then((result) => {
+        console.log("Database connection successful");
+        app.listen(port, () => {
+            console.log(`Server is running on port: ${port}`);
+        });
+    })
+    .catch((err) => console.log("Database connection failed", err));
