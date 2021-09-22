@@ -3,7 +3,8 @@ export const routes = {
     lessons: "/",
     categories: "/:lesson",
     card: "/:lesson/:category",
-    review: "/:lesson/:category/review"
+    review: "/:lesson/:category/review",
+    reviewUrl: (path: string): string => `${path}/review`
 };
 
 

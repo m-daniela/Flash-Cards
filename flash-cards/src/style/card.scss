@@ -6,11 +6,9 @@
     text-align: center;
     width: 500px;
     
-    p, form{
+    p, form, .card-buttons.additional{
         margin: 1em 1.5em;
     }
-
-    
 
     form{
         textarea{
@@ -21,15 +19,20 @@
             background-color: transparent;
             padding: 1em;
         }
-        .card-buttons{
-            @include flex-row;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin: 1em 0;
-        }
     }
-
-    
+    .card-buttons{
+        @include flex-row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 1em 0;
+        button{
+            flex: 1 0 25%;
+            &[name=review] a{
+                display: block;
+            }
+        }
+        
+    }
 
     @media screen and (max-width: 600px) {
         width: 100%;

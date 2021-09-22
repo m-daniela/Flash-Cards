@@ -2,6 +2,7 @@
 @import "./general.scss";
 @import "./common.scss";
 @import "./card.scss";
+@import "./review.scss";
 
 .app, body, html{
     height: 100%;
@@ -50,8 +51,6 @@ button{
     border-radius: var(--corners);
     background-color: transparent;
     margin-top: 1em;
-    flex: 1 0 auto;
-    flex-basis: 50%;
     padding: .5em .7em;
     &[name=submit], &[name=correct]{
         background-color: var(--secondary);

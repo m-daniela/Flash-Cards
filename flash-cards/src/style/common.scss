@@ -8,7 +8,14 @@ header{
     text-align: center;
     a{
         color: var(--primary);
-        padding: 1em;
+        padding: 1em 0em 1em 1em;
+        &::after{
+            content: ">";
+            padding-left: 1em;
+        }
+        &:last-of-type::after{
+            content: "";
+        }
     }
 }
 

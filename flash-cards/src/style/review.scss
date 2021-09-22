@@ -1,0 +1,16 @@
+
+.review{
+    @include flex-column;
+    .review-buttons{
+        @include flex-row;
+        align-content: center;
+        justify-content: center;
+       
+        button[name=incorrect]{
+            margin-left: 1em;
+        }
+        button[name=correct]{
+            margin-right: 1em;
+        }
+    }
+}
