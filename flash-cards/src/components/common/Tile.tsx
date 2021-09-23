@@ -2,6 +2,9 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { URLParams } from '../../utils/types';
 
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
+
 interface Props {
     title: string
 }
@@ -21,9 +24,9 @@ const Tile: React.FC<Props> = ({title}: Props) => {
 
     return (
         <div className="tile">
-            <button name="edit">E</button>
+            <button name="edit"><EditRoundedIcon/></button>
             <Link to={url}>{title}</Link>
-            <button name="delete">D</button>
+            <button name="delete"><DeleteForeverRoundedIcon/></button>
 
         </div>
     );

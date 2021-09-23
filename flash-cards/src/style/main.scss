@@ -63,3 +63,10 @@ button{
     }
 }
 
+input{
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--secondary);
+    height: fit-content;
+    margin: auto;
+}
