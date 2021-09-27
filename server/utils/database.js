@@ -63,7 +63,7 @@ const updateLesson = async (lesson, newLesson) => {
  * @returns list of categories (object with the list)
  */
 const getCategories = async (lesson) => {
-    return await Lesson.find({title: lesson}, "categories -_id");
+    return await Lesson.find({title: lesson});
 }
 
 /**

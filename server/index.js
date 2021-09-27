@@ -74,7 +74,7 @@ app.get(endpoints.categories, (req, res) => {
     console.log("GET", endpoints.categories);
     const lesson = req.params.lesson;
     getCategories(lesson)
-        .then((result) => res.json(result))
+        .then((result) => res.json(result[0].categories))
         .catch((err) => {
             console.log(err)
         });
@@ -84,6 +84,7 @@ app.post(endpoints.addCategory, (req, res) => {
     console.log("POST", endpoints.addCategory);
     const lesson = req.params.lesson;
     const category = req.body.category;
+    console.log(lesson, category)
     addCategory(lesson, category)
         .then((result) => res.json(result))
         .catch((err) => {
@@ -121,7 +122,7 @@ app.get(endpoints.cards, (req, res) => {
     console.log("GET", endpoints.cards);
     const {lesson, category} = req.params;
     getCards(lesson, category)
-        .then((result) => res.json(result))
+        .then((result) => res.json(result[0].categories[0].cards))
         .catch((err) => {
             console.log(err)
         });

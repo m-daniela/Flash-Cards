@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
+import { fetchCards, fetchCategories } from '../../utils/store/redux';
 
 /**
  * Header
@@ -9,6 +11,22 @@ import { Link } from 'react-router-dom';
 const Header: React.FC = () => {
     const params: string = useLocation()?.pathname;
     const displayParams: string[] = params === "/" ? [""] : params.split("/");
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (displayParams[1]){
+            const lesson: string = displayParams[1];
+            dispatch(fetchCategories({lesson}));
+        }
+        if (displayParams[2]){
+            const lesson: string = displayParams[1];
+            const category: string = displayParams[2];
+            dispatch(fetchCards({lesson, category}));
+
+        }
+    }, [displayParams]);
+
     return (
         <header>
             {displayParams.map((elem, index) => {
