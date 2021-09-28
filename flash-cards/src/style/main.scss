@@ -52,11 +52,11 @@ button{
     background-color: transparent;
     margin-top: 1em;
     padding: .5em .7em;
-    &[name=submit], &[name=correct]{
+    &[name=submit], &[name=correct].selected{
         background-color: var(--secondary);
         color: var(--primary);
     }
-    &[name=incorrect]{
+    &[name=incorrect].selected{
         background-color: var(--wrong);
         color: var(--primary);
         border-color: var(--wrong);

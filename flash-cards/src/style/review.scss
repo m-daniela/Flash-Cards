@@ -1,16 +1,27 @@
 
 .review{
     @include flex-column;
+    .tile{
+        @include centered-container;
+    }
     .review-buttons{
         @include flex-row;
         align-content: center;
         justify-content: center;
-       
-        button[name=incorrect]{
-            margin-left: 1em;
+        button{
+            margin: .5em .7em;
+            flex-basis: 33%;
         }
-        button[name=correct]{
-            margin-right: 1em;
+    }
+}
+
+.review-container{
+    @include flex-row;
+    justify-content: center;
+    @media screen and (max-width: 550px) {
+        @include flex-column;
+        & .tile, & .review-buttons{
+            width: auto;
         }
     }
 }

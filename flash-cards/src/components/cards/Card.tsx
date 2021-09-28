@@ -1,52 +1,104 @@
 import React, { useEffect, useState } from 'react';
-import { RootStateOrAny, useSelector } from 'react-redux';
-import { useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
-import { routes } from '../../utils/constants';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { addCorrect, addIncorrect, removeCard } from '../../utils/store/redux';
+import Review from '../review/Review';
+import AddCard from './AddCard';
 
 /**
  * Card component
- * @returns 
+ * Display the current card (question)
+ * Calls the AddCard and Review components on button click and removes 
+ * the card from the "all" list and moves it to the correct/ incorrect
+ * list, in the redux store
+ * @TODO skip functionality
+ * @TODO clean the lists when the category changes
+ * @TODO better state management
  */
 const Card: React.FC = () => {
-    const path: string = routes.reviewUrl(useLocation()?.pathname);
     const cards = useSelector((state: RootStateOrAny) => state.cards.all);
+    const dispatch = useDispatch();
 
-    const [currentCard, setCurrentCard] = useState(cards[0]);
-    const [display, setDisplay] = useState(currentCard.question); 
-    const [position, setPosition] = useState(0); 
+    const [answer, setAsnwer] = useState("");
 
-    console.log(cards);
+    const [add, setAdd] = useState(false); 
+    const [review, setReview] = useState(false); 
+    const [turned, setTurned] = useState(false); 
+
+    const [currentCard, setCurrentCard] = useState({
+        _id: "",
+        question: "",
+        answer: ""
+    });
+
+    const [display, setDisplay] = useState("");
+
+
 
     useEffect(() => {
-        if (cards.length !== 0){
+        if (cards.length){
             setCurrentCard(cards[0]);
-        }
-    }, cards);
+            setDisplay(cards[0].question);
 
-    const onSubmitAnswer = (e: any) => {
-        e.preventDefault();
+        }
+        else{
+            setCurrentCard({
+                _id: "",
+                question: "No more cards",
+                answer: "No more cards"
+            });
+        }
+    }, [cards]);
+
+    const checkAnswer = () => {
         setDisplay(currentCard.answer);
+        setTurned(true);
+    };
+
+    const nextCard = () => {
+        dispatch(removeCard(currentCard._id));
+        if (answer.toLowerCase() === currentCard.answer.toLowerCase()){
+            dispatch(addCorrect(currentCard));
+        }
+        else{
+            dispatch(addIncorrect(currentCard));
+        }
+        setTurned(false);
+        setDisplay(currentCard.question);
+
     };
 
     return (
-        <div className="card">
-            <div className="tile">
-                {display}
-            </div>
-            <p id="state">incorrect</p>
-            <form onSubmit={(e) => onSubmitAnswer(e)}>
-                <textarea placeholder="Your answer..."></textarea>
-                <div className="card-buttons">
-                    <button name="skip">Skip</button>
-                    <button name="submit">Submit</button>
+        <>
+            {add && <AddCard setAdd={setAdd}/>}
+            {review && <Review setReview={setReview}/>}
+
+            {(!add && !review) && 
+                <div className="card">
+                    <div className="tile">
+                        {display}
+                    </div>
+                    <p id="state">incorrect</p>
+                    <div className="card-info">
+                        <textarea placeholder="Your answer..." onChange={(e) => setAsnwer(e.target.value)} value={answer} />
+                        <div className="card-buttons">
+                            <button name="skip">Skip</button>
+                            {
+                                !turned ? 
+                                    <button name="submit" onClick={checkAnswer}>Submit</button>
+                                    :
+                                    <button name="submit" onClick={nextCard}>Next</button>
+                            }
+                        </div>
+                    </div>
+                    <div className="card-buttons additional">
+                        <button name="review" onClick={() => setReview(true)}>Review</button>
+                        <button name="add" onClick={() => setAdd(true)}>Add card</button>
+                    </div>
                 </div>
-            </form>
-            <div className="card-buttons additional">
-                <button name="review"><Link to={path}>Review</Link></button>
-                <button name="add">Add card</button>
-            </div>
-        </div>
+
+            }
+        </>
+        
     );
 };
 

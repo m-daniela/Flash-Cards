@@ -21,6 +21,7 @@ const cards: Cards = {
 // fetch the categories
 export const fetchCategories = createAsyncThunk(
     "lesson/fetchCategories",
+    // eslint-disable-next-line
     async ({lesson}: {lesson: string}, thunkAPI) => {
         const categories = await getCategories(lesson);
         return categories;
@@ -30,6 +31,7 @@ export const fetchCategories = createAsyncThunk(
 // fetch the cards from given category
 export const fetchCards = createAsyncThunk(
     "cards/fetchCards",
+    // eslint-disable-next-line
     async ({lesson, category}: {lesson: string, category: string}, thunkAPI) => {
         const cards = await getCards(lesson, category);
         return cards;
@@ -75,11 +77,17 @@ const cardsSlice = createSlice({
     initialState: cards,
     reducers: {
         addCorrect: (state, action) => {
-            state.correct = action.payload;
+            state.correct.push(action.payload);
         },
         addIncorrect: (state, action) => {
-            state.incorrect = action.payload;
+            state.incorrect.push(action.payload);
+        }, 
+        removeCard: (state, action) => {
+            const newState = state.all.filter((elem: Card) => elem._id !== action.payload);
+            state.all = newState;
+            return state;
         }
+        
     },
     extraReducers: (builder) => {
         builder.addCase(fetchCards.fulfilled, (state, action) => {
@@ -99,7 +107,8 @@ export const {
 
 export const {
     addCorrect, 
-    addIncorrect
+    addIncorrect, 
+    removeCard
 } = cardsSlice.actions;
 
 const reducer = {

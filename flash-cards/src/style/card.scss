@@ -1,4 +1,12 @@
 
+textarea{
+    width: calc(100% - 2em);
+    max-width: calc(100% - 2em);
+    border: 1px solid var(--secondary);
+    border-radius: var(--corners);
+    background-color: transparent;
+    padding: 1em;
+}
 
 .card{
     @include flex-column;
@@ -6,20 +14,11 @@
     text-align: center;
     width: 500px;
     
-    p, form, .card-buttons.additional{
+    p, .card-info, .card-buttons.additional{
         margin: 1em 1.5em;
     }
-
-    form{
-        textarea{
-            width: calc(100% - 2em);
-            max-width: calc(100% - 2em);
-            border: 1px solid var(--secondary);
-            border-radius: var(--corners);
-            background-color: transparent;
-            padding: 1em;
-        }
-    }
+    
+    
     .card-buttons{
         @include flex-row;
         flex-wrap: wrap;
@@ -41,7 +40,7 @@
             width: calc(100% - 3em);
         }
 
-        & p, & form{
+        & p, & .card-info, .card-buttons.additional{
             margin: .7em .4em;
         }
     }
@@ -50,5 +49,16 @@
         & .tile{
             margin: .7em auto;
         } 
+    }
+}
+
+.add-card{
+    @include flex-row;
+    margin: auto;
+    width: 50%;
+    flex-wrap: wrap;
+    justify-content: center;
+    & > *{
+        flex: 1 0 40%;
     }
 }

@@ -14,8 +14,18 @@ export interface Category {
     name: string;
 }
 
-export interface Card {
-    _id: string;
+export interface SimpleCard {
     question: string;
     answer: string;
+}
+
+// export interface Card {
+//     _id: string;
+//     question: string;
+//     answer: string;
+// }
+
+// not working? 
+export interface Card extends SimpleCard{
+    _id: string;
 }

@@ -133,7 +133,7 @@ app.post(endpoints.addCard, (req, res) => {
     console.log("POST", endpoints.addCard);
     const {lesson, category} = req.params;
     const card = req.body;
-    console.log(card)
+    // console.log(card)
     addCard(lesson, category, card)
         .then((result) => res.json(result))
         .catch((err) => {

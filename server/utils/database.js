@@ -146,6 +146,7 @@ const getCards = async (lesson, category) => {
  * @returns query result
  */
 const addCard = async (lesson, category, card) => {
+    console.log(card, "----")
     return await Lesson.updateOne(
         {
             title: lesson,
@@ -159,7 +160,8 @@ const addCard = async (lesson, category, card) => {
             $push: {
                 "categories.$.cards": {
                     _id: mongoose.Types.ObjectId(),
-                    ...card
+                    question: card.question,
+                    answer: card.answer
                 }
             }
         }

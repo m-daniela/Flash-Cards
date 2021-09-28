@@ -6,7 +6,6 @@ import Categories from './components/categories/Categories';
 
 import Header from './components/common/Header';
 import Lessons from './components/lessons/Lessons';
-import Review from './components/review/Review';
 
 import './style/main.scss';
 import { routes } from './utils/constants';
@@ -27,9 +26,6 @@ const App: React.FC = () => {
                     </Route>
                     <Route exact path={routes.card}>
                         <Card/>
-                    </Route>
-                    <Route exact path={routes.review}>
-                        <Review/>
                     </Route>
                 
                 </div>
