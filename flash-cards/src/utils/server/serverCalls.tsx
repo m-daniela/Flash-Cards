@@ -1,5 +1,5 @@
 import axios from "axios";
-import { addCardUrl, addCategoryUrl, addLessonUrl, getCardsUrl, getCategoriesUrl, getLessonsUrl } from "../constants";
+import { addCardUrl, addCategoryUrl, addLessonUrl, deleteCardUrl, deleteCategoryUrl, deleteLessonUrl, getCardsUrl, getCategoriesUrl, getLessonsUrl, updateCardUrl, updateCategoryUrl, updateLessonUrl } from "../constants";
 import { SimpleCard } from "../types";
 
 // lessons
@@ -25,6 +25,21 @@ export const addLesson = async (lesson: string): Promise<any> => {
         .catch(console.log);
 };
 
+export const deleteLesson = async (lesson: string): Promise<any> => {
+    return axios.delete(deleteLessonUrl(lesson))
+        .then((result) => {
+            return result.data;
+        })
+        .catch(console.log);
+};
+
+export const updateLesson = async (lesson: string, newLesson: string): Promise<any> => {
+    return axios.post(updateLessonUrl(lesson), {lesson: newLesson})
+        .then((result) => {
+            return result.data;
+        })
+        .catch(console.log);
+};
 
 // categories
 
@@ -45,6 +60,21 @@ export const addCategory = async (lesson: string, category: string): Promise<any
         .catch(console.log);
 };
 
+export const deleteCategory = async (lesson: string, category: string): Promise<any> => {
+    return axios.delete(deleteCategoryUrl(lesson, category))
+        .then((result) => {
+            return result.data;
+        })
+        .catch(console.log);
+};
+
+export const updateCategory = async (lesson: string, category: string, newCategory: string): Promise<any> => {
+    return axios.post(updateCategoryUrl(lesson, category), {category: newCategory})
+        .then((result) => {
+            return result.data;
+        })
+        .catch(console.log);
+};
 
 
 // cards
@@ -60,6 +90,23 @@ export const getCards = async (lesson: string, category: string): Promise<any> =
 
 export const addCard = async (lesson: string, category: string, card: SimpleCard): Promise<any> => {
     return axios.post(addCardUrl(lesson, category), {...card})
+        .then((result) => {
+            return result.data;
+        })
+        .catch(console.log);
+};
+
+
+export const deleteCard = async (lesson: string, category: string, card: string): Promise<any> => {
+    return axios.delete(deleteCardUrl(lesson, category, card))
+        .then((result) => {
+            return result.data;
+        })
+        .catch(console.log);
+};
+
+export const updateCard = async (lesson: string, category: string, card: string, newCard: SimpleCard): Promise<any> => {
+    return axios.post(updateCardUrl(lesson, category, card), {...newCard})
         .then((result) => {
             return result.data;
         })

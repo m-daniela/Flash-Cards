@@ -78,7 +78,7 @@ const Card: React.FC = () => {
                         {display}
                     </div>
                     <p id="state">incorrect</p>
-                    <div className="card-info">
+                    <p className="card-info">
                         <textarea placeholder="Your answer..." onChange={(e) => setAsnwer(e.target.value)} value={answer} />
                         <div className="card-buttons">
                             <button name="skip">Skip</button>
@@ -89,7 +89,7 @@ const Card: React.FC = () => {
                                     <button name="submit" onClick={nextCard}>Next</button>
                             }
                         </div>
-                    </div>
+                    </p>
                     <div className="card-buttons additional">
                         <button name="review" onClick={() => setReview(true)}>Review</button>
                         <button name="add" onClick={() => setAdd(true)}>Add card</button>

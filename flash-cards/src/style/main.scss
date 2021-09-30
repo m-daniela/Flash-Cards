@@ -8,6 +8,10 @@
     height: 100%;
 }
 
+body, html, button, input, textarea, .app{
+    font-family: var(--font_style);
+}
+
 .app, body, .tile{
     background-color: var(--primary);
     color: var(--font);
@@ -38,6 +42,7 @@
 .lessons, .categories{
     @include flex-row;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 a{
@@ -70,3 +75,27 @@ input{
     height: fit-content;
     margin: auto;
 }
+
+svg {
+    color: var(--secondary);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+  }
+  
+  /* Works on Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: var(--scroll-track);
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-thumb);
+    border-radius: 20px;
+    border: none;
+  }

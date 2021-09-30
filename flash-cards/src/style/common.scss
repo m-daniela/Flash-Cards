@@ -23,12 +23,15 @@ header{
 
 .tile{
     @include flex-row;
+    overflow: auto;
     border: 1px solid var(--secondary);
     border-radius: var(--corners);
     padding: .5em 1em 1em 1em;
     margin: 1em 1.5em;
     min-width: 200px;
-    height: 100px;
+    min-height: 100px;
+    max-height: 200px;
+    word-break: break-all;
     button{
         align-self: flex-start;
         border: none;
@@ -40,6 +43,16 @@ header{
     a, span{
         @include centered-container;
         flex: 1 0 auto;
+    }
+
+    @media screen and (max-width: 1250px) {
+        width: 30%;
+
+    }
+
+    @media screen and (max-width: 880px) {
+        width: 100%;
+
     }
 
     @media screen and (max-width: 600px) {
