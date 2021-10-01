@@ -21,8 +21,10 @@ interface Props {
 const Tile: React.FC<Props> = ({title}: Props) => {
     const params: URLParams = useParams();
     const url = params.lesson ? `/${params.lesson}/${title}` : `/${title}`;
-    const [editable, setEditable] = useState(false);
+    const [editable, toggleEditable] = useState(false);
 
+    // remove the tile
+    // check if it is a lesson or a category tile
     const deleteTile = () => {
         if (params.lesson){
             deleteCategory(params.lesson, title);
@@ -32,6 +34,8 @@ const Tile: React.FC<Props> = ({title}: Props) => {
         }
     };
 
+    // update the tile
+    // check if it is a lesson or a category tile
     const updateTile = (entry: string) => {
         if (params.lesson){
             updateCategory(params.lesson, title, entry);
@@ -44,10 +48,10 @@ const Tile: React.FC<Props> = ({title}: Props) => {
     return (
         <div className="tile">
             {editable ? 
-                <EditableTile addNew={updateTile} setEdit={setEditable}/>
+                <EditableTile add={updateTile} toggleEdit={toggleEditable}/>
                 :
                 <>
-                    <button name="edit" onClick={() => setEditable(true)}><EditRoundedIcon/></button>
+                    <button name="edit" onClick={() => toggleEditable(true)}><EditRoundedIcon/></button>
                     <Link to={url}>{title}</Link>
                     <button name="delete" onClick={deleteTile}><DeleteRoundedIcon/></button>
                 </>

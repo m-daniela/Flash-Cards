@@ -8,9 +8,13 @@ interface Props{
     selectIncorrect: boolean;
 }
 
+/**
+ * Lists the cards that where answered, with the correct answer
+ * @param {boolean} selectCorrect select the list of correct answers
+ * @param {boolean} selectIncorrect select the list of incorrect answers
+ */
 const ListAnswers: React.FC<Props> = ({selectCorrect, selectIncorrect}: Props) => {
     const {correct, incorrect} = useSelector((state: RootStateOrAny) => state.cards);
-
 
     return (
         <div className="review">

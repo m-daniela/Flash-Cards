@@ -1,23 +1,27 @@
 import React, {useState} from 'react';
 import EditableTile from './EditableTile';
 
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+
 interface Props {
-    editable?: string;
-    addNew: (a: string) => void
+    add: (a: string) => void
 }
 
-const AddTile: React.FC<Props> = ({editable, addNew}) => {
+/**
+ * Wrapper component for adding a new tile
+ * @param {function} add name of the 
+ */
+const AddTile: React.FC<Props> = ({add}: Props) => {
     
-    const [edit, setEdit] = useState(false);
-
+    const [edit, toggleEdit] = useState(false);
 
     return (
         <div className="tile">
             {
                 edit ? 
-                    <EditableTile setEdit={setEdit} addNew={addNew}/>
+                    <EditableTile toggleEdit={toggleEdit} add={add}/>
                     :
-                    <span onClick={() => setEdit(true)}>add {editable}</span>
+                    <span onClick={() => toggleEdit(true)}><AddRoundedIcon /> add</span>
             }
         </div>
     );

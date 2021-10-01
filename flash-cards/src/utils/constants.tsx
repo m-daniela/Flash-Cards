@@ -4,8 +4,6 @@ export const routes = {
     categories: "/:lesson",
     card: "/:lesson/:category",
     review: "/:lesson/:category/review",
-    reviewUrl: (path: string): string => `${path}/review`,
-    addCard: "/:lesson/:category/add",
 };
 
 
@@ -23,7 +21,6 @@ export const getCategoriesUrl = (lesson: string): string => `${main}${lesson}`;
 export const addCategoryUrl = (lesson: string): string => `${main}${lesson}/category`;
 export const deleteCategoryUrl = (lesson: string, category: string): string => `${main}${lesson}/category/${category}`;
 export const updateCategoryUrl = (lesson: string, category: string): string => `${main}${lesson}/category/${category}`;
-
 
 
 export const getCardsUrl = (lesson: string, category: string): string => `${main}${lesson}/category/${category}`;

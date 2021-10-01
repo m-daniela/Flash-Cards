@@ -6,18 +6,24 @@ import { Category } from '../../utils/types';
 import AddTile from '../common/AddTile';
 import Tile from '../common/Tile';
 
-
+/**
+ * Displays the list of categories
+ * Adds a new one, if valid
+ */
 const Categories: React.FC = () => {
     const lesson: any = useParams();
     const categories = useSelector((state: RootStateOrAny) => state.categories);
 
+    // add new category
     const addNewCategory = (category: string): void => {
-        addCategory(lesson.lesson, category);
+        if (category){
+            addCategory(lesson.lesson, category);
+        }
     };
 
     return (
         <div className="categories">
-            <AddTile editable="category" addNew={addNewCategory}/>
+            <AddTile add={addNewCategory}/>
             {categories.map((elem: Category, index: number) => <Tile title={elem.name} key={index}/>)}
         </div>
     );

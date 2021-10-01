@@ -44,6 +44,9 @@ header{
         @include centered-container;
         flex: 1 0 auto;
     }
+    span{
+        flex-direction: row;
+    }
 
     @media screen and (max-width: 1250px) {
         width: 30%;

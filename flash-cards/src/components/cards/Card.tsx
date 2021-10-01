@@ -5,11 +5,10 @@ import Review from '../review/Review';
 import AddCard from './AddCard';
 
 /**
- * Card component
- * Display the current card (question)
- * Calls the AddCard and Review components on button click and removes 
- * the card from the "all" list and moves it to the correct/ incorrect
- * list, in the redux store
+ * Display the current card (question first)
+ * Switches to the AddCard and Review components on button click
+ * When a card is answered, it is moved to the correct/ incorrect
+ * list from the store
  * @TODO skip functionality
  * @TODO clean the lists when the category changes
  * @TODO better state management
@@ -20,9 +19,10 @@ const Card: React.FC = () => {
 
     const [answer, setAsnwer] = useState("");
 
-    const [add, setAdd] = useState(false); 
-    const [review, setReview] = useState(false); 
+    const [add, toggleAdd] = useState(false); 
+    const [review, toggleReview] = useState(false); 
     const [turned, setTurned] = useState(false); 
+    const [status, setStatus] = useState(-1);
 
     const [currentCard, setCurrentCard] = useState({
         _id: "",
@@ -32,13 +32,11 @@ const Card: React.FC = () => {
 
     const [display, setDisplay] = useState("");
 
-
-
     useEffect(() => {
-        if (cards.length){
+        if (cards.length !== 0){
             setCurrentCard(cards[0]);
             setDisplay(cards[0].question);
-
+            setStatus(-1);
         }
         else{
             setCurrentCard({
@@ -49,19 +47,29 @@ const Card: React.FC = () => {
         }
     }, [cards]);
 
+    // check if the answer is correct 
     const checkAnswer = () => {
         setDisplay(currentCard.answer);
         setTurned(true);
+        if (answer.toLowerCase() === currentCard.answer.toLowerCase()){
+            setStatus(1);
+        }
+        else{
+            dispatch(addIncorrect(currentCard));
+            setStatus(0);
+        }
     };
 
+    // show the next card
     const nextCard = () => {
-        dispatch(removeCard(currentCard._id));
-        if (answer.toLowerCase() === currentCard.answer.toLowerCase()){
+        if (status === 1){
             dispatch(addCorrect(currentCard));
         }
         else{
             dispatch(addIncorrect(currentCard));
         }
+        dispatch(removeCard(currentCard._id));
+
         setTurned(false);
         setDisplay(currentCard.question);
 
@@ -69,16 +77,25 @@ const Card: React.FC = () => {
 
     return (
         <>
-            {add && <AddCard setAdd={setAdd}/>}
-            {review && <Review setReview={setReview}/>}
+            {add && <AddCard toggleAdd={toggleAdd}/>}
+            {review && <Review toggleReview={toggleReview}/>}
 
             {(!add && !review) && 
                 <div className="card">
                     <div className="tile">
                         {display}
                     </div>
-                    <p id="state">incorrect</p>
-                    <p className="card-info">
+                    <p id="state">
+                        {status !== -1 ? 
+                            <>
+                                {
+                                    status === 1 ? "Correct" : "Incorrect"
+                                }
+                            </> 
+                            : 
+                            <></>}
+                    </p>
+                    <div className="card-info">
                         <textarea placeholder="Your answer..." onChange={(e) => setAsnwer(e.target.value)} value={answer} />
                         <div className="card-buttons">
                             <button name="skip">Skip</button>
@@ -89,10 +106,10 @@ const Card: React.FC = () => {
                                     <button name="submit" onClick={nextCard}>Next</button>
                             }
                         </div>
-                    </p>
+                    </div>
                     <div className="card-buttons additional">
-                        <button name="review" onClick={() => setReview(true)}>Review</button>
-                        <button name="add" onClick={() => setAdd(true)}>Add card</button>
+                        <button name="review" onClick={() => toggleReview(true)}>Review</button>
+                        <button name="add" onClick={() => toggleAdd(true)}>Add card</button>
                     </div>
                 </div>
 

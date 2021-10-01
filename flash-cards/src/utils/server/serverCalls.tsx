@@ -6,7 +6,7 @@ import { SimpleCard } from "../types";
 
 /**
  * get lessons
- * @returns promise with the lessons
+ * @returns promise with the list of lessons
  */
 export const getLessons = async (): Promise<any> => {
     return axios.get(getLessonsUrl)
@@ -16,7 +16,11 @@ export const getLessons = async (): Promise<any> => {
         .catch(console.log);
 };
 
-
+/**
+ * add lesson
+ * @param {string} lesson lesson title
+ * @returns 
+ */
 export const addLesson = async (lesson: string): Promise<any> => {
     return axios.post(addLessonUrl, {lesson})
         .then((result) => {
@@ -46,7 +50,6 @@ export const updateLesson = async (lesson: string, newLesson: string): Promise<a
 export const getCategories = async (lesson: string): Promise<any> => {
     return axios.get(getCategoriesUrl(lesson))
         .then((result) => {
-            console.log(result.data);
             return result.data;
         })
         .catch(console.log);
@@ -82,7 +85,6 @@ export const updateCategory = async (lesson: string, category: string, newCatego
 export const getCards = async (lesson: string, category: string): Promise<any> => {
     return axios.get(getCardsUrl(lesson, category))
         .then((result) => {
-            console.log(result.data);
             return result.data;
         })
         .catch(console.log);

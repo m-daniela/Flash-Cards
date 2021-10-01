@@ -7,18 +7,22 @@ import { addLesson } from '../../utils/server/serverCalls';
 import AddTile from '../common/AddTile';
 
 /**
- * Show the available lessons
+ * Shows the available lessons
+ * Adds a new one, if valid
  */
 const Lessons: React.FC = () => {
     const lessons = useCachedData();
 
-    const addNewLesson = (title: string): void => {
-        addLesson(title);
+    // add lesson
+    const addNewLesson = (lesson: string): void => {
+        if(lesson){
+            addLesson(lesson);
+        }
     };
 
     return (
         <div className="lessons">
-            <AddTile editable="lesson" addNew={addNewLesson}/>
+            <AddTile add={addNewLesson}/>
             {
                 lessons.map((elem: Lesson) => <Tile title={elem.title} key={elem._id} />)
             }
