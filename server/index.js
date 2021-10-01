@@ -84,7 +84,6 @@ app.post(endpoints.addCategory, (req, res) => {
     console.log("POST", endpoints.addCategory);
     const lesson = req.params.lesson;
     const category = req.body.category;
-    console.log(lesson, category)
     addCategory(lesson, category)
         .then((result) => res.json(result))
         .catch((err) => {

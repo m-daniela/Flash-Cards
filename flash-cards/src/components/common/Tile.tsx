@@ -6,6 +6,8 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { deleteCategory, deleteLesson, updateCategory, updateLesson } from '../../utils/server/serverCalls';
 import EditableTile from './EditableTile';
+import { useDispatch } from 'react-redux';
+import { deleteCategoryReducer, updateCategoryReducer } from '../../utils/store/redux';
 
 interface Props {
     title: string
@@ -22,12 +24,20 @@ const Tile: React.FC<Props> = ({title}: Props) => {
     const params: URLParams = useParams();
     const url = params.lesson ? `/${params.lesson}/${title}` : `/${title}`;
     const [editable, toggleEditable] = useState(false);
+    const dispatch = useDispatch();
+
 
     // remove the tile
     // check if it is a lesson or a category tile
     const deleteTile = () => {
         if (params.lesson){
-            deleteCategory(params.lesson, title);
+            deleteCategory(params.lesson, title)
+                .then(result => {
+                    if (result.modifiedCount !== 0){
+                        dispatch(deleteCategoryReducer(title));
+                    }
+                })
+                .catch(console.log);
         }
         else {
             deleteLesson(title);
@@ -38,7 +48,13 @@ const Tile: React.FC<Props> = ({title}: Props) => {
     // check if it is a lesson or a category tile
     const updateTile = (entry: string) => {
         if (params.lesson){
-            updateCategory(params.lesson, title, entry);
+            updateCategory(params.lesson, title, entry)
+                .then(result => {
+                    if (result){
+                        dispatch(updateCategoryReducer({...result}));
+                    }
+                })
+                .catch(console.log);
         }
         else {
             updateLesson(title, entry);

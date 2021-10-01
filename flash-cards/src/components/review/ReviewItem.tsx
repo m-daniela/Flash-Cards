@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { RootStateOrAny, useSelector } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { deleteCard, updateCard } from '../../utils/server/serverCalls';
 import { Card, SimpleCard } from '../../utils/types';
 
@@ -7,9 +7,11 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import { deleteCorrect, deleteIncorrect, updateCorrect, updateIncorrect } from '../../utils/store/redux';
 
 interface Props {
     card: Card;
+    isCorrect: boolean;
 }
 
 /**
@@ -17,18 +19,30 @@ interface Props {
  * and delete the selected card
  * @param {Card} card the card to operate on 
  */
-const ReviewItem: React.FC<Props> = ({card}) => {
+const ReviewItem: React.FC<Props> = ({card, isCorrect}: Props) => {
     const lesson = useSelector((state: RootStateOrAny) => state.lesson);
     const category = useSelector((state: RootStateOrAny) => state.category);
     const [question, setQuestion] = useState(card.question);
     const [answer, setAnswer] = useState(card.answer);
     const [edit, toggleEdit] = useState(false);
 
+    const dispatch = useDispatch();
+
 
     // send delete request to the server
-    const deleteSelectedCard = () => {
+    const deleteCardWrapper = () => {
         if (card._id){
-            deleteCard(lesson, category, card._id);
+            deleteCard(lesson, category, card._id)
+                .then(result => {
+                    if(result.modifiedCount !== 0){
+                        if (isCorrect){
+                            dispatch(deleteCorrect(card._id));
+                        }
+                        else{
+                            dispatch(deleteIncorrect(card._id));
+                        }
+                    }
+                });
         }
     };
 
@@ -40,10 +54,23 @@ const ReviewItem: React.FC<Props> = ({card}) => {
                 question,
                 answer
             };
-            updateCard(lesson, category, card._id, newCard);
             toggleEdit(false);
+            updateCard(lesson, category, card._id, newCard)
+                .then(result => {
+                    if(result.modifiedCount !== 0){
+                        const finalCard: Card = {
+                            _id: card._id,
+                            ...newCard
+                        };
+                        if (isCorrect){
+                            dispatch(updateCorrect(finalCard));
+                        }
+                        else{
+                            dispatch(updateIncorrect(finalCard));
+                        }
+                    }
+                });
         }
-        
     };
 
     return (
@@ -61,7 +88,7 @@ const ReviewItem: React.FC<Props> = ({card}) => {
                         <button name="edit" onClick={() => toggleEdit(true)}><EditRoundedIcon/></button>
                         <div className="tile" >{card.question}</div>
                         <div className="tile" >{card.answer}</div>
-                        <button name="delete" onClick={deleteSelectedCard}><DeleteRoundedIcon /></button>
+                        <button name="delete" onClick={deleteCardWrapper}><DeleteRoundedIcon /></button>
 
                     </>
             }

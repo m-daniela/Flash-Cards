@@ -66,10 +66,20 @@ const categoriesSlice = createSlice({
     name: "categories",
     initialState: categories,
     reducers: {
-        addCategory: (state, action) => {
+        addCategoryReducer: (state, action) => {
             state.push(action.payload);
             return state;
-        }
+        },
+        deleteCategoryReducer: (state, action) => state.filter(elem => elem.name !== action.payload),
+        updateCategoryReducer: (state, action) => state.map(elem => {
+            if (elem.name === action.payload.old){
+                return {
+                    ...elem,
+                    name: action.payload.category
+                };
+            }
+            return elem;
+        })
     },
     extraReducers: (builder) => {
         builder.addCase(fetchCategories.fulfilled, (state, action) => action.payload);
@@ -81,18 +91,70 @@ const cardsSlice = createSlice({
     name: "cards",
     initialState: cards,
     reducers: {
+        addCardReducer: (state, action) => {
+            state.all.push(action.payload);
+        },
+        // correct answers
         addCorrect: (state, action) => {
             state.correct.push(action.payload);
         },
+        deleteCorrect: (state, action) => {
+            const result = state.correct.filter(elem => elem._id !== action.payload);
+            return {
+                ...state, 
+                correct: result
+            };
+        },
+        updateCorrect: (state, action) => {
+            const result = state.correct.map(elem => {
+                const card = action.payload;
+                if (elem._id === card._id){
+                    return {
+                        _id: card._id,
+                        question: card.question,
+                        answer: card.answer
+                    };
+                }
+                return elem;
+            });
+            return {
+                ...state, 
+                correct: result
+            };
+        },
+        // incorrect answers
         addIncorrect: (state, action) => {
             state.incorrect.push(action.payload);
         }, 
-        removeCard: (state, action) => {
+        deleteIncorrect: (state, action) => {
+            const result = state.incorrect.filter(elem => elem._id !== action.payload);
+            return {
+                ...state, 
+                incorrect: result
+            };
+        },
+        updateIncorrect: (state, action) => {
+            const result = state.incorrect.map(elem => {
+                const card = action.payload;
+                if (elem._id === card._id){
+                    return {
+                        _id: card._id,
+                        question: card.question,
+                        answer: card.answer
+                    };
+                }
+                return elem;
+            });
+            return {
+                ...state, 
+                incorrect: result
+            };
+        },
+        deleteCardReducer: (state, action) => {
             const newState = state.all.filter((elem: Card) => elem._id !== action.payload);
             state.all = newState;
             return state;
         }
-        
     },
     extraReducers: (builder) => {
         builder.addCase(fetchCards.fulfilled, (state, action) => {
@@ -107,13 +169,25 @@ export const {
 } = lessonSlice.actions;
 
 export const {
-    selectCategory
+    selectCategory,
 } = categorySlice.actions;
 
 export const {
+    addCategoryReducer,
+    updateCategoryReducer,
+    deleteCategoryReducer
+} = categoriesSlice.actions;
+
+
+export const {
+    addCardReducer,
     addCorrect, 
+    deleteCorrect,
+    updateCorrect,
     addIncorrect, 
-    removeCard
+    deleteIncorrect,
+    updateIncorrect,
+    deleteCardReducer
 } = cardsSlice.actions;
 
 const reducer = {

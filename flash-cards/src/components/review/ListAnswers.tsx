@@ -18,8 +18,8 @@ const ListAnswers: React.FC<Props> = ({selectCorrect, selectIncorrect}: Props) =
 
     return (
         <div className="review">
-            {selectCorrect && <>{correct.map((card: Card) => <ReviewItem key={card._id} card={card}/>)}</> }
-            {selectIncorrect && <>{incorrect.map((card: Card) => <ReviewItem key={card._id} card={card}/>)}</> }
+            {selectCorrect && <>{correct.map((card: Card) => <ReviewItem key={card._id} isCorrect={selectCorrect} card={card}/>)}</> }
+            {selectIncorrect && <>{incorrect.map((card: Card) => <ReviewItem key={card._id} isCorrect={selectCorrect} card={card}/>)}</> }
         </div>
     );
 };

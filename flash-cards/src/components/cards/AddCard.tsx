@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { RootStateOrAny, useSelector } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { addCard } from '../../utils/server/serverCalls';
+import { addCardReducer } from '../../utils/store/redux';
 import { SimpleCard } from '../../utils/types';
 
 interface Props {
@@ -18,6 +19,7 @@ const AddCard: React.FC<Props> = ({toggleAdd}: Props) => {
     const category = useSelector((state: RootStateOrAny) => state.category);
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
+    const dispatch = useDispatch();
 
     // validate card
     const addNewCard = () =>{
@@ -26,7 +28,13 @@ const AddCard: React.FC<Props> = ({toggleAdd}: Props) => {
                 question,
                 answer
             };
-            addCard(lesson, category, card);
+            addCard(lesson, category, card)
+                .then(result => {
+                    if (result) {
+                        dispatch(addCardReducer(result));
+                    }
+                })
+                .catch(console.log);
             toggleAdd(false);
         }
     };

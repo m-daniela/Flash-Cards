@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { addCorrect, addIncorrect, removeCard } from '../../utils/store/redux';
+import { addCorrect, addIncorrect, deleteCardReducer } from '../../utils/store/redux';
 import Review from '../review/Review';
 import AddCard from './AddCard';
 
@@ -55,7 +55,6 @@ const Card: React.FC = () => {
             setStatus(1);
         }
         else{
-            dispatch(addIncorrect(currentCard));
             setStatus(0);
         }
     };
@@ -68,7 +67,7 @@ const Card: React.FC = () => {
         else{
             dispatch(addIncorrect(currentCard));
         }
-        dispatch(removeCard(currentCard._id));
+        dispatch(deleteCardReducer(currentCard._id));
 
         setTurned(false);
         setDisplay(currentCard.question);
