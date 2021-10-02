@@ -19,18 +19,16 @@ body, html, button, input, textarea, .app{
 
 .app{
     width: calc(80% - 10em);
-    margin: 1em auto;
+    margin: 2em auto;
     padding: 0 5em;
 
     @media screen and (max-width: 1500px) {
         padding: 0 4em;
-        margin: .7em auto;
         width: calc(80% - 8em);
     }
 
     @media screen and (max-width: 900px) {
         padding: 0 2em;
-        margin: .5em auto;
         width: calc(100% - 4em);
     }
     @media screen and (max-width: 300px) {
@@ -43,6 +41,9 @@ body, html, button, input, textarea, .app{
     @include flex-row;
     flex-wrap: wrap;
     justify-content: center;
+    .tile{
+        cursor: pointer;
+    }
 }
 
 a{
@@ -74,6 +75,17 @@ input{
     border-bottom: 1px solid var(--secondary);
     height: fit-content;
     margin: auto;
+}
+
+textarea{
+    width: calc(100% - 2em);
+    max-width: calc(100% - 2em);
+    min-height: 100px;
+    max-height: 200px;
+    border: 1px solid var(--secondary);
+    border-radius: var(--corners);
+    background-color: transparent;
+    padding: 1em;
 }
 
 svg {

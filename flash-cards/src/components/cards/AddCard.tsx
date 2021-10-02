@@ -42,10 +42,14 @@ const AddCard: React.FC<Props> = ({toggleAdd}: Props) => {
 
     return (
         <div className="add-card">
-            <textarea onChange={(e) => setQuestion(e.target.value)} value={question}/>
-            <textarea onChange={(e) => setAnswer(e.target.value)} value={answer}/>
-            <button onClick={() => toggleAdd(false)}>Close</button>
-            <button onClick={addNewCard}>Add card</button>
+            <span>Add card</span>
+            <textarea placeholder="Enter question..." onChange={(e) => setQuestion(e.target.value)} value={question}/>
+            <textarea placeholder="Enter answer..." onChange={(e) => setAnswer(e.target.value)} value={answer}/>
+            <div className="buttons">
+                <button name="close" onClick={() => toggleAdd(false)}>Close</button>
+                <button name="add" onClick={addNewCard}>Finish</button>
+            </div>
+            
         </div>
     );
 };

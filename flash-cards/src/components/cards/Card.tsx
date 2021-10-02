@@ -76,6 +76,7 @@ const Card: React.FC = () => {
 
         setTurned(false);
         setDisplay(currentCard.question);
+        setAsnwer("");
     };
 
     const skipCard = () => {

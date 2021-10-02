@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { clearCards, fetchCards, fetchCategories, selectCategory, selectLesson } from '../../utils/store/redux';
 
 /**
- * Header
  * Progressively show the current page, as the user browses 
  * Save the current lesson and category in the store
  */

@@ -1,12 +1,4 @@
 
-textarea{
-    width: calc(100% - 2em);
-    max-width: calc(100% - 2em);
-    border: 1px solid var(--secondary);
-    border-radius: var(--corners);
-    background-color: transparent;
-    padding: 1em;
-}
 
 .card{
     @include flex-column;
@@ -59,12 +51,53 @@ textarea{
 }
 
 .add-card{
-    @include flex-row;
-    margin: auto;
-    width: 50%;
+    @include flex-column;
+    // width: auto;
     flex-wrap: wrap;
+    margin: 1em auto;
     justify-content: center;
-    & > *{
-        flex: 1 0 40%;
+    align-items: center;
+    span{
+        margin-bottom: 1em;
+        text-align: center;
+    }
+    .buttons{
+        @include flex-row;
+        width: 50%;
+        justify-content: space-between;
+        button{
+            width: 100%;
+            flex-basis: 30%;
+            &[name=add]{
+                background-color: var(--secondary);
+                color: var(--primary);
+            }
+        }
+    }
+    
+    textarea{
+        margin-bottom: 1.5em;
+        width: calc(50% - 2em);
+    }
+    @media screen and (max-width: 1500px) {
+        width: 80%;
+        textarea{
+            width: calc(50% - 2em);
+        }
+        .buttons{
+            width: 50%;
+        }
+    }
+    @media screen and (max-width: 650px) {
+        width: 100%;
+        textarea{
+            width: calc(100% - 2em);
+        }
+        .buttons{
+            width: 100%;
+            button{
+                flex-basis: 40%;
+            }
+        }
     }
 }

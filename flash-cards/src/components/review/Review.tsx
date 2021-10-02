@@ -21,7 +21,7 @@ const Review: React.FC<Props> = ({toggleReview}: Props) => {
     return (
         <div className="review">
             <div className="review-buttons">
-                <button onClick={()=>toggleReview(false)}>Back</button>
+                <button onClick={()=>toggleReview(false)}>Close</button>
 
                 <button className={selectCorrect ? "selected" : ""} name="correct" onClick={selectionButton}>Correct</button>
                 <button className={selectIncorrect ? "selected" : ""} name="incorrect" onClick={selectionButton}>Incorrect</button>
