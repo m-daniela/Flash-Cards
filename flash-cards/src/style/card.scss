@@ -22,15 +22,21 @@ textarea{
     .card-buttons{
         @include flex-row;
         flex-wrap: wrap;
-        justify-content: space-around;
+        justify-content: space-between;
         margin: 1em 0;
         button{
-            flex: 1 0 25%;
+            width: 40%;
             &[name=review] a{
                 display: block;
             }
         }
         
+    }
+
+    @media screen and (max-width: 880px) {
+        & .tile{
+            width: calc(100% - 5em);
+        }
     }
 
     @media screen and (max-width: 600px) {

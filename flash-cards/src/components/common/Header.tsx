@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
-import { fetchCards, fetchCategories, selectCategory, selectLesson } from '../../utils/store/redux';
+import { clearCards, fetchCards, fetchCategories, selectCategory, selectLesson } from '../../utils/store/redux';
 
 /**
  * Header
@@ -28,6 +28,7 @@ const Header: React.FC = () => {
             dispatch(selectCategory(category));
             dispatch(fetchCards({lesson, category}));
         }
+        dispatch(clearCards());
     }, [displayParams]);
 
     return (

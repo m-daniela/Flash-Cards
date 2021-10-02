@@ -91,8 +91,21 @@ const cardsSlice = createSlice({
     name: "cards",
     initialState: cards,
     reducers: {
+        // eslint-disable-next-line
+        clearCards: (state) => cards,
         addCardReducer: (state, action) => {
             state.all.push(action.payload);
+        },
+        deleteCardReducer: (state, action) => {
+            const newState = state.all.filter((elem: Card) => elem._id !== action.payload);
+            state.all = newState;
+            return state;
+        },
+        skipCardReducer: (state) => {
+            const first = state.all.shift();
+            if (first){
+                state.all.push(first);
+            }
         },
         // correct answers
         addCorrect: (state, action) => {
@@ -107,7 +120,7 @@ const cardsSlice = createSlice({
         },
         updateCorrect: (state, action) => {
             const result = state.correct.map(elem => {
-                const card = action.payload;
+                const card: Card = action.payload;
                 if (elem._id === card._id){
                     return {
                         _id: card._id,
@@ -149,11 +162,6 @@ const cardsSlice = createSlice({
                 ...state, 
                 incorrect: result
             };
-        },
-        deleteCardReducer: (state, action) => {
-            const newState = state.all.filter((elem: Card) => elem._id !== action.payload);
-            state.all = newState;
-            return state;
         }
     },
     extraReducers: (builder) => {
@@ -180,6 +188,7 @@ export const {
 
 
 export const {
+    clearCards,
     addCardReducer,
     addCorrect, 
     deleteCorrect,
@@ -187,7 +196,8 @@ export const {
     addIncorrect, 
     deleteIncorrect,
     updateIncorrect,
-    deleteCardReducer
+    deleteCardReducer, 
+    skipCardReducer
 } = cardsSlice.actions;
 
 const reducer = {

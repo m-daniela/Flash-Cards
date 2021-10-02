@@ -24,6 +24,7 @@ header{
 .tile{
     @include flex-row;
     overflow: auto;
+    // background-color: var(--tile);
     border: 1px solid var(--secondary);
     border-radius: var(--corners);
     padding: .5em 1em 1em 1em;
@@ -48,15 +49,15 @@ header{
         flex-direction: row;
     }
 
-    @media screen and (max-width: 1250px) {
-        width: 30%;
+    // @media screen and (max-width: 1250px) {
+    //     width: 30%;
 
-    }
+    // }
 
-    @media screen and (max-width: 880px) {
-        width: 100%;
+    // @media screen and (max-width: 880px) {
+    //     width: 100%;
 
-    }
+    // }
 
     @media screen and (max-width: 600px) {
         width: 100%;

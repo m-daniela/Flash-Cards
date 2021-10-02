@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { addCorrect, addIncorrect, deleteCardReducer } from '../../utils/store/redux';
+import { addCorrect, addIncorrect, deleteCardReducer, skipCardReducer } from '../../utils/store/redux';
 import Review from '../review/Review';
 import AddCard from './AddCard';
 
@@ -9,8 +9,6 @@ import AddCard from './AddCard';
  * Switches to the AddCard and Review components on button click
  * When a card is answered, it is moved to the correct/ incorrect
  * list from the store
- * @TODO skip functionality
- * @TODO clean the lists when the category changes
  * @TODO better state management
  */
 const Card: React.FC = () => {
@@ -39,39 +37,49 @@ const Card: React.FC = () => {
             setStatus(-1);
         }
         else{
+            setDisplay("No cards");
             setCurrentCard({
                 _id: "",
-                question: "No more cards",
-                answer: "No more cards"
+                question: "No cards",
+                answer: "No cards"
             });
         }
     }, [cards]);
 
     // check if the answer is correct 
     const checkAnswer = () => {
-        setDisplay(currentCard.answer);
-        setTurned(true);
-        if (answer.toLowerCase() === currentCard.answer.toLowerCase()){
-            setStatus(1);
+        if (currentCard._id !== ""){
+            setDisplay(currentCard.answer);
+            setTurned(true);
+            if (answer.toLowerCase() === currentCard.answer.toLowerCase()){
+                setStatus(1);
+            }
+            else{
+                setStatus(0);
+            }
         }
-        else{
-            setStatus(0);
-        }
+        
     };
 
     // show the next card
     const nextCard = () => {
-        if (status === 1){
-            dispatch(addCorrect(currentCard));
-        }
-        else{
-            dispatch(addIncorrect(currentCard));
+        if (currentCard._id !== ""){
+
+            if (status === 1){
+                dispatch(addCorrect(currentCard));
+            }
+            else{
+                dispatch(addIncorrect(currentCard));
+            }
         }
         dispatch(deleteCardReducer(currentCard._id));
 
         setTurned(false);
         setDisplay(currentCard.question);
+    };
 
+    const skipCard = () => {
+        dispatch(skipCardReducer());
     };
 
     return (
@@ -97,7 +105,7 @@ const Card: React.FC = () => {
                     <div className="card-info">
                         <textarea placeholder="Your answer..." onChange={(e) => setAsnwer(e.target.value)} value={answer} />
                         <div className="card-buttons">
-                            <button name="skip">Skip</button>
+                            <button name="skip" disabled={turned} onClick={skipCard}>Skip</button>
                             {
                                 !turned ? 
                                     <button name="submit" onClick={checkAnswer}>Submit</button>
