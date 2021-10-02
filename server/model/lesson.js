@@ -14,7 +14,15 @@ const lessonSchema = new Schema({
             name: {
                 type: String,
                 required: true, 
-                unique: true
+                index: {
+                    unique: true, 
+                    partialFilterExpression: {
+                        "categories.name": {
+                            $ne: null
+                        }
+                    },
+                    // default: null
+                }
             },
             cards: [
                 {

@@ -18,12 +18,14 @@ const addLesson = async (lesson) => {
     const newLesson = new Lesson({
         title: lesson
     });
-    return newLesson.save()
-        .then((res) => res)
-        .catch((err) => {
-            console.log("Database add lesson error", err);
-            return {};
-        });
+    try{
+        const result = await newLesson.save();
+        return result;
+    }
+    catch(error) {
+        console.log("Database add lesson error", err);
+        return null;
+    }
 }
 
 /**
@@ -45,12 +47,26 @@ const deleteLesson = async (lesson) => {
  * @returns query result
  */
 const updateLesson = async (lesson, newLesson) => {
-    return await Lesson.updateOne({title: lesson}, 
-        {
-            $set: {
-                title: newLesson
+    
+    try{
+        const result = await Lesson.updateOne({title: lesson}, 
+            {
+                $set: {
+                    title: newLesson
+                }
+            });
+            console.log(result, 123)
+        if (result.modifiedCount !== 0){
+            return {
+                old: lesson,
+                lesson: newLesson
             }
-        });
+        }
+    }
+    catch(error){
+        console.log(error);
+        return null;
+    }
 }
 
 
@@ -74,23 +90,28 @@ const getCategories = async (lesson) => {
  */
 const addCategory = async (lesson, category) => {
     const _id = mongoose.Types.ObjectId();
-    const result = await Lesson.updateOne({title: lesson},
-        {
-            $push: {
-                categories: {
-                    _id,
-                    name: category
+    try{
+        const result = await Lesson.updateOne({title: lesson},
+            {
+                $push: {
+                    categories: {
+                        _id,
+                        name: category
+                    }
                 }
             }
-        }
-    )
-    if (result.modifiedCount !== 0){
-        return {
-            _id, 
-            name: category
+        )
+        if (result.modifiedCount !== 0){
+            return {
+                _id, 
+                name: category
+            }
         }
     }
-    return null;
+    catch(error){
+        console.log(error);
+        return null;
+    }
 }
 
 
@@ -120,19 +141,22 @@ const deleteCategory = async (lesson, category) => {
  * @returns query result
  */
 const updateCategory = async (lesson, category, newCategory) => {
-    const result = await Lesson.updateOne({title: lesson, "categories.name": category}, 
+    try{
+        const result = await Lesson.updateOne({title: lesson, "categories.name": category}, 
         {
             $set: {
                 "categories.$.name": newCategory
             }
         });
-    if (result.modifiedCount !== 0){
-        return {
-            old: category, 
-            category: newCategory
-        };
+        if (result.modifiedCount !== 0){
+            return {
+                old: category, 
+                category: newCategory
+            };
+        }
     }
-    else {
+    catch(error){
+        console.log(error);
         return null;
     }
 }
@@ -164,32 +188,35 @@ const getCards = async (lesson, category) => {
  */
 const addCard = async (lesson, category, card) => {
     const _id = mongoose.Types.ObjectId();
-    const result = await Lesson.updateOne(
-        {
-            title: lesson,
-            categories: {
-                $elemMatch: {
-                    name: category
+    try{
+        const result = await Lesson.updateOne(
+            {
+                title: lesson,
+                categories: {
+                    $elemMatch: {
+                        name: category
+                    }
+                }
+            },
+            {
+                $push: {
+                    "categories.$.cards": {
+                        _id,
+                        question: card.question,
+                        answer: card.answer
+                    }
                 }
             }
-        },
-        {
-            $push: {
-                "categories.$.cards": {
-                    _id,
-                    question: card.question,
-                    answer: card.answer
-                }
+        )
+        if (result.modifiedCount !== 0){
+            return {
+                _id,
+                ...card
             }
-        }
-    )
-    if (result.modifiedCount !== 0){
-        return {
-            _id,
-            ...card
         }
     }
-    else{
+    catch(error){
+        console.log(error);
         return null;
     }
 }
@@ -202,29 +229,32 @@ const addCard = async (lesson, category, card) => {
  * @returns 
  */
 const deleteCard = async (lesson, category, cardId) => {
-    const result = await Lesson.updateOne(
-        {
-            title: lesson,
-            categories: {
-                $elemMatch: {
-                    name: category
+    try{
+        const result = await Lesson.updateOne(
+            {
+                title: lesson,
+                categories: {
+                    $elemMatch: {
+                        name: category
+                    }
+                }
+            },
+            {
+                $pull: {
+                    "categories.$.cards": {
+                        _id: cardId
+                    }
                 }
             }
-        },
-        {
-            $pull: {
-                "categories.$.cards": {
-                    _id: cardId
-                }
+        );
+        if (result.modifiedCount !== 0){
+            return {
+                _id: cardId
             }
-        }
-    );
-    if (result.modifiedCount !== 0){
-        return {
-            _id: cardId
         }
     }
-    else{
+    catch(error){
+        console.log(error);
         return null;
     }
 }
@@ -240,33 +270,36 @@ const deleteCard = async (lesson, category, cardId) => {
 
 const updateCard = async (lesson, category, cardId, newCard) => {
     const _id = mongoose.Types.ObjectId(cardId);
-    const result = await Lesson.updateOne(
-        {
-            title: lesson,
-            "categories.name": category, 
-            "categories.$.cards._id": cardId
-        },
-        {
-            $set: {
-                "categories.$.cards.$[i]": {
-                    _id: cardId, 
-                    ...newCard
+    try{
+        const result = await Lesson.updateOne(
+            {
+                title: lesson,
+                "categories.name": category, 
+                "categories.$.cards._id": cardId
+            },
+            {
+                $set: {
+                    "categories.$.cards.$[i]": {
+                        _id: cardId, 
+                        ...newCard
+                    }
                 }
+            },
+            {
+                arrayFilters: [{
+                    "i._id": _id
+                }]
             }
-        },
-        {
-            arrayFilters: [{
-                "i._id": _id
-            }]
-        }
-    );
-    if (result.modifiedCount !== 0){
-        return {
-            _id,
-            ...newCard
+        );
+        if (result.modifiedCount !== 0){
+            return {
+                _id,
+                ...newCard
+            }
         }
     }
-    else{
+    catch(error){
+        console.log(error);
         return null;
     }
 }

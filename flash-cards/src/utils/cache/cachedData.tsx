@@ -8,7 +8,7 @@ export const cache: any = {
 
 export function useCachedData(): any {
     const [lessons, setLessons] = useState([]);
-
+    console.log("here we are");
     const setLessonsCache: any = async () => {
         if (cache.lessons.length === 0){
             try{

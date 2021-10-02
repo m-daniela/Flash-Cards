@@ -1,6 +1,6 @@
 import { configureStore, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getCards, getCategories } from '../server/serverCalls';
-import { Category, Card } from '../types';
+import { getCards, getCategories, getLessons } from '../server/serverCalls';
+import { Category, Card, Lesson } from '../types';
 
 
 interface Cards {
@@ -11,6 +11,7 @@ interface Cards {
 
 const initialLesson = "";
 const initialCategory = "";
+const lessons: Lesson[] = [];
 const categories: Category[] = [];
 const cards: Cards = {
     all: [],
@@ -18,9 +19,19 @@ const cards: Cards = {
     incorrect: []
 };
 
+// fetch the lessons
+export const fetchLessons = createAsyncThunk(
+    "lessons/fetchLessons",
+    // eslint-disable-next-line
+    async (thunkAPI) => {
+        const lessons = await getLessons();
+        return lessons;
+    }
+);
+
 // fetch the categories
 export const fetchCategories = createAsyncThunk(
-    "lesson/fetchCategories",
+    "categories/fetchCategories",
     // eslint-disable-next-line
     async ({lesson}: {lesson: string}, thunkAPI) => {
         const categories = await getCategories(lesson);
@@ -60,6 +71,32 @@ const categorySlice = createSlice({
         selectCategory: (state, action) => action.payload 
     }
 });
+
+// lessons
+const lessonsSlice = createSlice({
+    name: "lessons",
+    initialState: lessons,
+    reducers: {
+        addLessonReducer: (state, action) => {
+            state.push(action.payload);
+            return state;
+        },
+        deleteLessonReducer: (state, action) => state.filter(elem => elem.title !== action.payload),
+        updateLessonReducer: (state, action) => state.map(elem => {
+            if (elem.title === action.payload.old){
+                return {
+                    ...elem,
+                    title: action.payload.lesson
+                };
+            }
+            return elem;
+        })
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchLessons.fulfilled, (state, action) => action.payload);
+    }
+});
+
 
 // current categories
 const categoriesSlice = createSlice({
@@ -181,6 +218,12 @@ export const {
 } = categorySlice.actions;
 
 export const {
+    addLessonReducer,
+    updateLessonReducer,
+    deleteLessonReducer
+} = lessonsSlice.actions;
+
+export const {
     addCategoryReducer,
     updateCategoryReducer,
     deleteCategoryReducer
@@ -202,6 +245,7 @@ export const {
 
 const reducer = {
     lesson: lessonSlice.reducer,
+    lessons: lessonsSlice.reducer,
     category: categorySlice.reducer,
     categories: categoriesSlice.reducer, 
     cards: cardsSlice.reducer

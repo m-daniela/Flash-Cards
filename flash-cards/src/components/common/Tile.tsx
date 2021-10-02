@@ -7,7 +7,7 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { deleteCategory, deleteLesson, updateCategory, updateLesson } from '../../utils/server/serverCalls';
 import EditableTile from './EditableTile';
 import { useDispatch } from 'react-redux';
-import { deleteCategoryReducer, updateCategoryReducer } from '../../utils/store/redux';
+import { deleteCategoryReducer, deleteLessonReducer, updateCategoryReducer, updateLessonReducer } from '../../utils/store/redux';
 
 interface Props {
     title: string
@@ -40,7 +40,13 @@ const Tile: React.FC<Props> = ({title}: Props) => {
                 .catch(console.log);
         }
         else {
-            deleteLesson(title);
+            deleteLesson(title)
+                .then(result => {
+                    if (result.modifiedCount !== 0){
+                        dispatch(deleteLessonReducer(title));
+                    }
+                })
+                .catch(console.log);
         }
     };
 
@@ -57,7 +63,13 @@ const Tile: React.FC<Props> = ({title}: Props) => {
                 .catch(console.log);
         }
         else {
-            updateLesson(title, entry);
+            updateLesson(title, entry)
+                .then(result => {
+                    if (result){
+                        dispatch(updateLessonReducer({...result}));
+                    }
+                })
+                .catch(console.log);
         }
     };
 
