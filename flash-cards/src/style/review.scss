@@ -1,60 +1,13 @@
 
-.review{
-    @include flex-column;
-    .tile{
-        @include centered-container;
-    }
-    .review-buttons{
-        @include flex-row;
-        align-content: center;
-        justify-content: center;
-        button{
-            margin: .5em .7em;
-            padding: .5em 2em;
-            @media screen and (max-width: 350px) {
-                padding: .5em .7em;
-            }
-        }
+.review .controls{
+    button{
+        border: none;
+        margin: 0;
     }
 }
 
-.review-container{
-    @include flex-row;
-    justify-content: center;
-    margin: 1em;
-    .tile{
-        margin-top: 0;
-        margin-bottom: 0;
-        max-width: 200px;
-    }
-    button{
-        align-self: flex-start;
-        border: none;
-        background-color: transparent;
-        padding: 0;
-        margin: 0;
-        flex: none;
-    }
-
-    
-
-    @media screen and (max-width: 650px) {
-        @include flex-column;
-        justify-content: center;
-        align-items: center;
-        & .tile, & .review-buttons{
-            width: auto;
-        }
-        & .tile{
-            margin: 1em;
-            width: calc(100% - 2em);
-
-        }
-        & button[name=update], & button[name=finish]{
-            order: -1;
-        }
-        & button[name=delete], & button[name=close]{
-            order: 0;
-        }
-    }
+.review-buttons button{
+    background-color: transparent;
+    color: var(--font);
+    border: 1px solid var(--secondary);
 }

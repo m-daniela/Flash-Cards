@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { deleteCard, updateCard } from '../../utils/server/serverCalls';
 import { Card, SimpleCard } from '../../utils/types';
+import Form from "react-bootstrap/Form";
 
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
@@ -74,22 +75,25 @@ const ReviewItem: React.FC<Props> = ({card, isCorrect}: Props) => {
     };
 
     return (
-        <div key={card._id} id={`${card._id}`} className="review-container">
+        <div key={card._id} id={`${card._id}`} className="review-container row mx-auto justify-content-center my-3">
             {
                 edit ? 
                     <>
-                        <button name="finish" onClick={updateCardWrapper}><CheckRoundedIcon/></button>
-                        <textarea className="tile" onChange={(e) => setQuestion(e.target.value)} value={question} placeholder="Your entry..."/> 
-                        <textarea className="tile" onChange={(e) => setAnswer(e.target.value)} value={answer} placeholder="Your entry..."/> 
-                        <button name="close" onClick={() => toggleEdit(false)}><CloseRoundedIcon/></button>
+                        <Form.Control as="textarea" className="tile col-12 col-md-5 order-2 order-md-1 mt-2 mx-md-2" onChange={(e) => setQuestion(e.target.value)} value={question} placeholder="Your entry..."/> 
+                        <Form.Control as="textarea" className="tile col-12 col-md-5 order-3 order-md-2 mt-2 mx-md-2" onChange={(e) => setAnswer(e.target.value)} value={answer} placeholder="Your entry..."/> 
+                        <div className="controls row col-12 col-md-1 order-1 order-md-3 justify-content-md-center">
+                            <button name="finish" onClick={updateCardWrapper}><CheckRoundedIcon/></button>
+                            <button name="close" onClick={() => toggleEdit(false)}><CloseRoundedIcon/></button>
+                        </div>
                     </> 
                     :
                     <>
-                        <button name="edit" onClick={() => toggleEdit(true)}><EditRoundedIcon/></button>
-                        <div className="tile" >{card.question}</div>
-                        <div className="tile" >{card.answer}</div>
-                        <button name="delete" onClick={deleteCardWrapper}><DeleteRoundedIcon /></button>
-
+                        <div className="tile col-12 col-md-5 order-2 order-md-1 mt-2 mx-md-2 " >{card.question}</div>
+                        <div className="tile col-12 col-md-5 order-3 order-md-2 mt-2 mx-md-2" >{card.answer}</div>
+                        <div className="controls row col-12 col-md-1 order-1 order-md-3 justify-content-center">
+                            <button name="edit" onClick={() => toggleEdit(true)}><EditRoundedIcon/></button>
+                            <button name="delete" onClick={deleteCardWrapper}><DeleteRoundedIcon /></button>
+                        </div>
                     </>
             }
             

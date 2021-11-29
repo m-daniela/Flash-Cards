@@ -74,13 +74,13 @@ const Tile: React.FC<Props> = ({title}: Props) => {
     };
 
     return (
-        <div className="tile">
+        <div className="tile col col-10 col-sm-5 col-md-4 col-lg-2 m-2 row">
             {editable ? 
                 <EditableTile add={updateTile} toggleEdit={toggleEditable}/>
                 :
                 <>
                     <button name="edit" onClick={() => toggleEditable(true)}><EditRoundedIcon/></button>
-                    <Link to={url}>{title}</Link>
+                    <Link to={url} className="text-decoration-none">{title}</Link>
                     <button name="delete" onClick={deleteTile}><DeleteRoundedIcon/></button>
                 </>
             }

@@ -17,10 +17,12 @@ const ListAnswers: React.FC<Props> = ({selectCorrect, selectIncorrect}: Props) =
     const {correct, incorrect} = useSelector((state: RootStateOrAny) => state.cards);
 
     return (
-        <div className="review">
+        <>
+            {/* <div className="review row"> */}
             {selectCorrect && <>{correct.map((card: Card) => <ReviewItem key={card._id} isCorrect={selectCorrect} card={card}/>)}</> }
             {selectIncorrect && <>{incorrect.map((card: Card) => <ReviewItem key={card._id} isCorrect={selectCorrect} card={card}/>)}</> }
-        </div>
+            {/* </div> */}
+        </>
     );
 };
 

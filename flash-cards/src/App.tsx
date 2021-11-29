@@ -25,7 +25,7 @@ const App: React.FC = () => {
             <Router>
                 <Header />
 
-                <div className="app">
+                <div className="container my-4 mx-auto justify-content-center" >
                 
                     <Route exact path={routes.lessons}>
                         <Lessons/>

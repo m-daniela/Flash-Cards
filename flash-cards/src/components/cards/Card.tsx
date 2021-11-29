@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Button from 'react-bootstrap/button';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { addCorrect, addIncorrect, deleteCardReducer, skipCardReducer } from '../../utils/store/redux';
 import Review from '../review/Review';
@@ -89,41 +90,32 @@ const Card: React.FC = () => {
             {review && <Review toggleReview={toggleReview}/>}
 
             {(!add && !review) && 
-                <div className="card">
-                    <div className="tile">
+                <div className="row flex-column align-items-center mx-auto my-2">
+                    <span className="col-12 col-md-6 py-1 text-center">Answer the questions</span>
+
+                    <div className="tile col-12 col-md-6 my-3 py-1">
                         {display}
                     </div>
-                    <p id="state">
-                        {status !== -1 ? 
-                            <>
-                                {
-                                    status === 1 ? "Correct" : "Incorrect"
-                                }
-                            </> 
-                            : 
-                            <></>}
+                    <p id="state" className="col-12 col-md-6 text-center my-3">
+                        {status !== -1 && <>{status === 1 ? "Correct" : "Incorrect"}</>}
                     </p>
-                    <div className="card-info">
-                        <textarea placeholder="Your answer..." onChange={(e) => setAsnwer(e.target.value)} value={answer} />
-                        <div className="card-buttons">
-                            <button name="skip" disabled={turned} onClick={skipCard}>Skip</button>
-                            {
-                                !turned ? 
-                                    <button name="submit" onClick={checkAnswer}>Submit</button>
-                                    :
-                                    <button name="submit" onClick={nextCard}>Next</button>
-                            }
-                        </div>
-                    </div>
-                    <div className="card-buttons additional">
-                        <button name="review" onClick={() => toggleReview(true)}>Review</button>
-                        <button name="add" onClick={() => toggleAdd(true)}>Add card</button>
+                    <textarea placeholder="Your answer..." className="col-12 col-md-6 py-1" onChange={(e) => setAsnwer(e.target.value)} value={answer} />
+
+                    <div className="row row-cols-2 mt-3 col-12 col-md-6 justify-content-between p-0">
+                        <Button name="skip" className="btn-custom col-4" disabled={turned} onClick={skipCard}>Skip</Button>
+                        {
+                            !turned ? 
+                                <Button name="submit" className="btn-custom col-4" onClick={checkAnswer}>Submit</Button>
+                                :
+                                <Button name="submit" className="btn-custom col-4" onClick={nextCard}>Next</Button>
+                        }
+                        <div className="col-12"></div>
+                        <Button name="review" className="btn-custom col-4" onClick={() => toggleReview(true)}>Review</Button>
+                        <Button name="add" className="btn-custom col-4" onClick={() => toggleAdd(true)}>Add</Button>
                     </div>
                 </div>
-
             }
         </>
-        
     );
 };
 

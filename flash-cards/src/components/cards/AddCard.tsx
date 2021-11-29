@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Form from "react-bootstrap/Form";
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { addCard } from '../../utils/server/serverCalls';
 import { addCardReducer } from '../../utils/store/redux';
@@ -41,13 +42,14 @@ const AddCard: React.FC<Props> = ({toggleAdd}: Props) => {
 
 
     return (
-        <div className="add-card">
-            <span>Add card</span>
-            <textarea placeholder="Enter question..." onChange={(e) => setQuestion(e.target.value)} value={question}/>
-            <textarea placeholder="Enter answer..." onChange={(e) => setAnswer(e.target.value)} value={answer}/>
-            <div className="buttons">
-                <button name="close" onClick={() => toggleAdd(false)}>Close</button>
-                <button name="add" onClick={addNewCard}>Finish</button>
+        <div className="add-card row flex-column align-items-center mx-auto my-2">
+            <span className="col-12 col-md-6 py-1 text-center">Add a new card</span>
+            <Form.Control as="textarea" placeholder="Enter question..." className="col-12 col-md-6 py-1 my-3" onChange={(e) => setQuestion(e.target.value)} value={question}/>
+            <Form.Control as="textarea" placeholder="Enter answer..." className="col-12 col-md-6 py-1 my-3" onChange={(e) => setAnswer(e.target.value)} value={answer}/>
+
+            <div className="row col-12 col-md-6 justify-content-between py-1 px-0">
+                <button name="close" className="col-4" onClick={() => toggleAdd(false)}>Close</button>
+                <button name="add-card" className="col-4" onClick={addNewCard}>Finish</button>
             </div>
             
         </div>

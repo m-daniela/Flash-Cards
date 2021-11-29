@@ -24,9 +24,10 @@ const EditableTile: React.FC<Props> = ({toggleEdit, add}: Props) => {
 
     return (
         <>
-            <CheckRoundedIcon onClick={addWrapper}/>
+            <button onClick={addWrapper}><CheckRoundedIcon /></button>
             <input onChange={(e) => setTitle(e.target.value)} value={title} placeholder="Your entry..."/> 
-            <CloseRoundedIcon onClick={() => toggleEdit(false)}/>
+            <button onClick={() => toggleEdit(false)}> <CloseRoundedIcon /></button>
+           
         </>
                    
     );

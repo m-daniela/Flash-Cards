@@ -1,11 +1,8 @@
 // header
 
-header{
-    display: flex;
-    justify-content: center;
+.navbar{
     background-color: var(--secondary);
     color: var(--primary);
-    text-align: center;
     a{
         color: var(--primary);
         padding: 1em 0em 1em 1em;
@@ -22,13 +19,9 @@ header{
 // tile
 
 .tile{
-    @include flex-row;
-    overflow: auto;
-    // background-color: var(--tile);
+    // @include flex-row;
     border: 1px solid var(--secondary);
     border-radius: var(--corners);
-    padding: .5em 1em 1em 1em;
-    margin: 1em 1.5em;
     min-width: 200px;
     min-height: 100px;
     max-height: 200px;
@@ -39,11 +32,11 @@ header{
         border: none;
         background-color: transparent;
         padding: 0;
+        padding-top: .5em;
         margin: 0;
         flex: none;
         opacity: 0;
         transition: opacity .5s;
-        
     }
     &:hover button{
         opacity: 100;
@@ -55,25 +48,7 @@ header{
     span{
         flex-direction: row;
     }
-
-    // @media screen and (max-width: 1250px) {
-    //     width: 30%;
-
-    // }
-
-    // @media screen and (max-width: 880px) {
-    //     width: 100%;
-
-    // }
-
-    @media screen and (max-width: 600px) {
-        width: 100%;
-        margin: .7em .4em;
-    }
-
-    @media screen and (max-width: 300px) {
-        width: 100%;
-        padding: .7em 1em;
-        margin: .7em 0;
+    input{
+        width: 50%;
     }
 }

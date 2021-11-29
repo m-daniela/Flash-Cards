@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import ListAnswers from './ListAnswers';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Button from "react-bootstrap/Button";
+import Row from 'react-bootstrap/Row';
 
 interface Props {
     toggleReview: (a: boolean) => void;
@@ -19,13 +22,12 @@ const Review: React.FC<Props> = ({toggleReview}: Props) => {
     };
 
     return (
-        <div className="review">
-            <div className="review-buttons">
-                <button onClick={()=>toggleReview(false)}>Close</button>
-
-                <button className={selectCorrect ? "selected" : ""} name="correct" onClick={selectionButton}>Correct</button>
-                <button className={selectIncorrect ? "selected" : ""} name="incorrect" onClick={selectionButton}>Incorrect</button>
-            </div>
+        <div className="review row flex-column align-items-center mx-auto my-2">
+            <ButtonGroup as={Row} mb={5} className="review-buttons">
+                <Button className="btn-custom" onClick={()=>toggleReview(false)}>Close</Button>
+                <Button className={`btn-custom ${selectCorrect ? "selected" : ""}`} name="correct" onClick={selectionButton}>Correct</Button>
+                <Button className={`btn-custom ${selectIncorrect ? "selected" : ""}`} name="incorrect" onClick={selectionButton}>Incorrect</Button>
+            </ButtonGroup>
             <ListAnswers selectCorrect={selectCorrect} selectIncorrect={selectIncorrect} />
         </div>
     );

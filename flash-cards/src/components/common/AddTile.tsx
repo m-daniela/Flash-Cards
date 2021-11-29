@@ -16,7 +16,7 @@ const AddTile: React.FC<Props> = ({add}: Props) => {
     const [edit, toggleEdit] = useState(false);
 
     return (
-        <div className="tile">
+        <div className="tile col col-10 col-sm-5 col-md-4 col-lg-2 m-2 row">
             {
                 edit ? 
                     <EditableTile toggleEdit={toggleEdit} add={add}/>

@@ -29,7 +29,7 @@ const Lessons: React.FC = () => {
     };
 
     return (
-        <div className="lessons">
+        <div className="lessons row p-2 justify-content-center">
             <AddTile add={addNewLesson}/>
             {
                 lessons.map((elem: Lesson) => <Tile title={elem.title} key={elem._id} />)

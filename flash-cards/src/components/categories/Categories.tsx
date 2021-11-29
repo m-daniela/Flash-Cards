@@ -31,7 +31,7 @@ const Categories: React.FC = () => {
     };
 
     return (
-        <div className="categories">
+        <div className="categories row row p-2 justify-content-center">
             <AddTile add={addNewCategory}/>
             {categories.map((elem: Category, index: number) => <Tile title={elem.name} key={index}/>)}
         </div>

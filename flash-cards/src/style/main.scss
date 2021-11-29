@@ -1,8 +1,8 @@
 
 @import "./general.scss";
 @import "./common.scss";
-@import "./card.scss";
 @import "./review.scss";
+@import "./custom.scss";
 
 .app, body, html{
     height: 100%;
@@ -17,37 +17,14 @@ body, html, button, input, textarea, .app{
     color: var(--font);
 }
 
-.app{
-    width: calc(80% - 10em);
-    margin: 2em auto;
-    padding: 0 5em;
-
-    @media screen and (max-width: 1500px) {
-        padding: 0 4em;
-        width: calc(80% - 8em);
-    }
-
-    @media screen and (max-width: 900px) {
-        padding: 0 2em;
-        width: calc(100% - 4em);
-    }
-    @media screen and (max-width: 300px) {
-        width: calc(100% - 1.5em);
-        padding: 0 .75em;
-    }
-}
-
 .lessons, .categories{
-    @include flex-row;
-    flex-wrap: wrap;
-    justify-content: center;
     .tile{
         cursor: pointer;
     }
 }
 
 a{
-    text-decoration: none;
+    text-decoration: none !important;
     color: var(--font);
 }
 
@@ -58,7 +35,7 @@ button{
     background-color: transparent;
     margin-top: 1em;
     padding: .5em .7em;
-    &[name=submit], &[name=correct].selected{
+    &[name=submit], &[name=correct].selected, &[name=add-card]{
         background-color: var(--secondary);
         color: var(--primary);
     }
@@ -77,15 +54,16 @@ input{
     margin: auto;
 }
 
-textarea{
-    width: calc(100% - 2em);
-    max-width: calc(100% - 2em);
+textarea, .add-card textarea, .review-container textarea{
     min-height: 100px;
     max-height: 200px;
     border: 1px solid var(--secondary);
     border-radius: var(--corners);
     background-color: transparent;
     padding: 1em;
+    &:focus{
+        background-color: transparent;
+    }
 }
 
 svg {
